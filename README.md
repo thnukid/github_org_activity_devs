@@ -18,13 +18,19 @@ developer2 (2) -> https://github.com/developer2/test-repo, https://github.com/de
 
 1. Clone this repository
 
+```
     $ git clone git@github.com:thnukid/github_org_activity_devs.git
+```
 
 2. Install
 
+```
     $ cd github_org_activity_devs/
+```
 
+```
     $ bundle
+```
 
 ## Usage
 
