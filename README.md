@@ -30,21 +30,29 @@ developer2 (2) -> https://github.com/developer2/test-repo, https://github.com/de
 
 1. Copy `.env.example` to `.env`
 
+```
     $ cp .env.example .env
+```
 
 2. Edit `.env`
 
+```
     $ vim .env
+```
 
 3. Get a github auto token
 4. Get the team member id
 5. Make executable
 
+```
     $ chmod +x bin/github_org_activity_devs
+```
 
 6. Run the summary
 
+```
     $ bundle exec bin/github_org_activity_devs
+```
 
 ## License
 
