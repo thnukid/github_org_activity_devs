@@ -1,0 +1,5 @@
+#!/usr/bin/env ruby
+require 'bundler/setup'
+require 'github_org_activity_devs'
+
+GithubOrgActivityDevs::Main.new.summary
