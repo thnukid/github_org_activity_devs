@@ -40,7 +40,7 @@ developer2 (2) -> https://github.com/developer2/test-repo, https://github.com/de
     $ vim .env
 ```
 
-3. Get a github auto token
+3. Get a github auth token
 4. Get the team member id
 5. Make executable
 
