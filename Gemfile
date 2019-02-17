@@ -8,3 +8,5 @@ gemspec
 gem 'activerecord' # orm
 gem 'standalone_migrations' # rails like migrations
 gem 'sqlite3' # as database
+
+gem 'pry' # debugger
