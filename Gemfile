@@ -7,6 +7,8 @@ gemspec
 
 gem 'activerecord' # orm
 gem 'standalone_migrations' # rails like migrations
-gem 'sqlite3' # as database
+gem 'sqlite3', '~> 1.3', '< 1.4' # as database
+
+gem 'dotenv' # .env configuration
 
 gem 'pry' # debugger

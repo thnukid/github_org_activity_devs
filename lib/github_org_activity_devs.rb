@@ -8,6 +8,7 @@ module GithubOrgActivityDevs
   # ...
   class Main
     def initialize
+      Dotenv.load
       ActiveRecord::Base.establish_connection(db_configuration['development'])
     end
 
