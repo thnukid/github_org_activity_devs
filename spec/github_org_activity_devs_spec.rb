@@ -6,18 +6,25 @@ module GithubOrgActivityDevs
 
     context 'intialize' do
       subject { described_class.new }
-      let(:development_config) { {} }
-      let(:yaml_config_hash) do
-        { 'development' => development_config }
+      context 'database' do
+        let(:development_config) { {} }
+        let(:yaml_config_hash) do
+          { 'development' => development_config }
+        end
+
+        before do
+          allow(YAML).to receive(:load).and_return(yaml_config_hash)
+        end
+
+        it 'will establish a connection to the database' do
+          expect(ActiveRecord::Base).to receive(:establish_connection)
+            .with(development_config)
+          subject
+        end
       end
 
-      before do
-        allow(YAML).to receive(:load).and_return(yaml_config_hash)
-      end
-
-      it 'will establish a connection to the database' do
-        expect(ActiveRecord::Base).to receive(:establish_connection)
-          .with(development_config)
+      it 'loads dotenv' do
+        expect(Dotenv).to receive(:load)
         subject
       end
     end
