@@ -13,4 +13,6 @@ gem 'dotenv' # .env configuration
 
 gem 'octokit' # github api client
 
+gem 'terminal-table'
+
 gem 'pry' # debugger
