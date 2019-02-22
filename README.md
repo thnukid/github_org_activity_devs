@@ -9,8 +9,20 @@ Needs a `github oauth token` and a `team_member_id` of the github team
 ```
 $ bundle exec bin/github_org_activity_devs
 # waiting longtime...
-developer (1) -> https://github.com/developer/test-repo
-developer2 (2) -> https://github.com/developer2/test-repo, https://github.com/developer2/test-repo-2
++---------------+------------+----------------+
+| github_login  |            |                |
+|               |            |                |
+|               | GitEvent   |                |
+|               |            | repo/repo-name |
+|               | -          |                |
++---------------+------------+----------------+
++---------------+------------+----------------+
+| github_login1 |            |                |
+|               |            |                |
+|               | GitEvent   |                |
+|               |            | repo/repo-name |
+|               | -          |                |
++---------------+------------+----------------+
 ...
 ```
 
