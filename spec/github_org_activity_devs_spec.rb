@@ -50,86 +50,65 @@ module GithubOrgActivityDevs
       context '.developers' do
         before do
           allow_any_instance_of(Octokit::Client).to receive(:team_members)
-            .and_return([double(login: 'developer')])
+            .and_return(team_members_stub)
         end
 
-        it 'loads team_members developers' do
+        let(:team_members_stub) do
+          [double(login: 'developer'), double(login: 'developer2')]
+        end
+
+        it 'creates an array' do
           expect(subject.developers.class).to eq Array
-          expect(subject.developers.count).to eq 1
+        end
+
+        it 'contains 2' do
+          expect(subject.developers.count).to eq 2
         end
       end
 
       context '.activity' do
+        subject { described_class.new.activity }
+
         before do
-          allow(subject).to receive(:developers).and_return(stub_developer)
+          allow_any_instance_of(Octokit::Client).to receive(:team_members)
+            .and_return(team_members_stub)
+
+          allow_any_instance_of(Octokit::Client).to receive(:user_events)
+            .and_return(user_events_stub)
         end
 
-        let(:stub_developer) { [double(login: 'developer1')] }
+        let(:team_members_stub) { [double(login: 'ariejan')] }
 
-        it 'calls user_events' do
-          expect_any_instance_of(Octokit::Client).to receive(:user_events)
-            .with('developer1')
-          subject.activity
-        end
-
-        context 'returns user_events' do
-          before do
-            allow_any_instance_of(Octokit::Client).to receive(:user_events)
-              .and_return(events)
-          end
-
-          let(:events) do
-            [{}]
-          end
-
-          it 'includes the activity of a group member' do
-            expect(subject.activity.include?('developer1')).to eq true
-          end
-
-          it 'includes the activity_events' do
-            expect(subject.activity.fetch('developer1').last).to eq({})
+        let(:user_events_stub) do
+          github_api_events.map do |event_name|
+            OpenStruct.new({ :type => event_name.to_s, :repo => { :name => 'repo/name' } })
           end
         end
-      end
 
-      context '.watch_events' do
-        before do
-          allow(subject).to receive(:activity).and_return(stub_user_events)
+        let(:github_api_events) do
+          ["IssueCommentEvent", "IssuesEvent", "PullRequestEvent", "PullRequestReviewCommentEvent", "PushEvent", "WatchEvent"]
         end
 
-        let(:stub_user_events) do
-          [
-            ['developer1', [{ type: 'WatchEvent' }]],
-            ['empty', [{ type: 'PushEvent' }]]
-          ]
+        context 'data_structure' do
+          it 'contains the name' do
+            expect(subject.keys).to contain_exactly(:ariejan)
+          end
+
+          it 'the name contains these hash kays' do
+            expect(subject.fetch(:ariejan).keys.sort).to eq(github_api_events.sort)
+          end
+
+          it 'and each events contains an array' do
+            github_api_events.each do |event_name|
+              expect(subject.fetch(:ariejan).fetch(event_name).class).to eq Array
+            end
+          end
+
+          context '.summary' do
+
+          end
         end
 
-        it 'finds the developers' do
-          expect(subject.watch_events.fetch('developer1').class).to eq Array
-          expect(subject.watch_events.fetch('empty').class).to eq Array
-        end
-
-        it 'finds the WatchEvent' do
-          expect(subject.watch_events.fetch('developer1').count).to eq 1
-          expect(subject.watch_events.fetch('empty').count).to eq 0
-        end
-      end
-
-      context '.summary' do
-        before do
-          allow(subject).to receive(:watch_events).and_return(stub_watch_events)
-        end
-        let(:stub_watch_events) do
-          [
-            ['developer1', [{ repo: { name: 'test/test-repo' } }]]
-          ]
-        end
-
-        it 'prints to console' do
-          expect(subject).to receive(:output_console)
-            .with('developer1', ['https://github.com/test/test-repo'])
-          subject.summary
-        end
       end
     end
   end

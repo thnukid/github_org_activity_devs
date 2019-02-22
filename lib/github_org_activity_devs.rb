@@ -22,27 +22,12 @@ module GithubOrgActivityDevs
 
     def activity
       @activity ||= developers.each_with_object({}) do |developer, hash|
-        hash[developer.login] = client.user_events(developer.login)
-      end
-    end
-
-    # { developer: [{ repos }] }
-    def watch_events
-      @watch_events = activity.each_with_object({}).each do |stream, hash|
-        watch_events = stream.last.select { |x| x[:type] == 'WatchEvent' }
-        developer = stream.first
-        hash[developer] = watch_events
+        developer_events = client.user_events(developer.login).group_by(&:type)
+        hash[developer.login.to_sym] = developer_events
       end
     end
 
     def summary
-      watch_events.each do |developer|
-        name = developer.first
-        repos = developer.last.map do |x|
-          ['https://github.com/', x[:repo][:name]].join
-        end
-        output_console(name, repos)
-      end
     end
 
     private
