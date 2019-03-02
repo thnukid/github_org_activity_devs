@@ -1,16 +1,22 @@
-require 'github_org_activity_devs/version'
 require 'rubygems'
 require 'bundler'
 Bundler.require(:default)
 
 # ..
 module GithubOrgActivityDevs
+  require 'github_org_activity_devs/version'
+  require 'github_org_activity_devs/octokit_client'
+  require 'github_org_activity_devs/dot_env'
+  require 'github_org_activity_devs/database_client'
+
   # ...
   class Main
-    attr_reader :client
+    include DotEnv
+    include DatabaseClient
+    include OctokitClient
 
     def initialize
-      setup
+      puts self
     end
 
     # @return ['login1', 'login2'] if so
@@ -48,31 +54,12 @@ module GithubOrgActivityDevs
 
     private
 
-    def setup
-      Dotenv.load
-      ActiveRecord::Base.establish_connection(db_configuration['development'])
-      @client = Octokit::Client.new(access_token: github_token)
-      @client.auto_paginate = true
-    end
-
     def output_console(name, repos)
       puts "#{name} (#{repos.count}) -> #{repos.join(', ')}"
     end
 
-    def github_token
-      ENV.fetch('GITHUB_OAUTH_TOKEN')
-    end
-
     def team_members_id
       ENV.fetch('GITHUB_TEAM_MEMBERS_ID')
-    end
-
-    def db_configuration
-      YAML.load(File.read(db_configuration_file))
-    end
-
-    def db_configuration_file
-      File.join(File.expand_path(__dir__), '..', 'db', 'config.yml')
     end
   end
 end
