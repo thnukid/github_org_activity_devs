@@ -10,16 +10,15 @@ module GithubOrgActivityDevs
     attr_reader :client
 
     def initialize
-      Dotenv.load
-      ActiveRecord::Base.establish_connection(db_configuration['development'])
-      @client = Octokit::Client.new(access_token: github_token)
-      @client.auto_paginate = true
+      setup
     end
 
+    # @return ['login1', 'login2'] if so
     def developers
       @developers ||= client.team_members(team_members_id).map(&:login).sort
     end
 
+    # @return { 'login1' => { 'type_event': [{ 'event_json'}] }
     def activity
       @activity ||= developers.each_with_object({}) do |developer, hash|
         developer_events = client.user_events(developer).group_by(&:type)
@@ -48,6 +47,13 @@ module GithubOrgActivityDevs
     end
 
     private
+
+    def setup
+      Dotenv.load
+      ActiveRecord::Base.establish_connection(db_configuration['development'])
+      @client = Octokit::Client.new(access_token: github_token)
+      @client.auto_paginate = true
+    end
 
     def output_console(name, repos)
       puts "#{name} (#{repos.count}) -> #{repos.join(', ')}"
