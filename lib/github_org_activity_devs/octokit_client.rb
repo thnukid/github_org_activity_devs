@@ -20,18 +20,11 @@ module GithubOrgActivityDevs
       Octokit.client
     end
 
-    def cache_path
-      File.join(File.expand_path(__dir__), '..', '..', 'cache')
-    end
-
-    def store
-      ActiveSupport::Cache::FileStore.new(cache_path)
-    end
-
     def stack
       FaradayManualCache.configure do |config|
-          config.memory_store = store
+        config.memory_store = store
       end
+
       Faraday::RackBuilder.new do |builder|
         builder.use Faraday::Request::Retry, exceptions: [Octokit::ServerError]
         builder.use Octokit::Middleware::FollowRedirects
@@ -54,6 +47,14 @@ module GithubOrgActivityDevs
 
     def github_token
       ENV.fetch('GITHUB_OAUTH_TOKEN')
+    end
+
+    def cache_path
+      File.join(File.expand_path(__dir__), '..', '..', 'cache')
+    end
+
+    def store
+      ActiveSupport::Cache::FileStore.new(cache_path)
     end
   end
 end
