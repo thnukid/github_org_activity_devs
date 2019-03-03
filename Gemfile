@@ -12,7 +12,7 @@ gem 'standalone_migrations' # rails like migrations
 gem 'dotenv' # .env configuration
 
 gem 'octokit' # github api client
-gem 'faraday-http-cache' # cache middleware for faraday
+gem 'faraday-manual-cache' # cache middleware for faraday
 gem 'activesupport' # File store cache
 
 gem 'terminal-table'

@@ -42,8 +42,9 @@ GEM
     erubi (1.8.0)
     faraday (0.15.4)
       multipart-post (>= 1.2, < 3)
-    faraday-http-cache (2.0.0)
-      faraday (~> 0.8)
+    faraday-manual-cache (0.4.0)
+      activesupport (>= 3.0.0)
+      faraday (~> 0.9)
     i18n (1.5.3)
       concurrent-ruby (~> 1.0)
     loofah (2.2.3)
@@ -113,7 +114,7 @@ DEPENDENCIES
   activesupport
   bundler (~> 1.16)
   dotenv
-  faraday-http-cache
+  faraday-manual-cache
   github_org_activity_devs!
   octokit
   pry
