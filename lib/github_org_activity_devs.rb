@@ -1,13 +1,43 @@
-require 'rubygems'
-require 'bundler'
-Bundler.require(:default)
-
 # ..
 module GithubOrgActivityDevs
+  require 'rubygems'
+  require 'bundler'
+  Bundler.require(:default)
+
   require 'github_org_activity_devs/version'
   require 'github_org_activity_devs/octokit_client'
   require 'github_org_activity_devs/dot_env'
   require 'github_org_activity_devs/database_client'
+
+  class RepositoryDecorator
+    attr_reader :info
+
+    def initialize(info)
+      @info = info
+    end
+
+    def to_s
+      [repo_link, description, language, spacer].join("\n")
+    end
+
+    def repo_link
+      ['https://github.com/', info.full_name].join
+    end
+
+    def description
+      info.description
+    end
+
+    def language
+      info.language
+    end
+
+    private
+
+    def spacer
+      ['~']
+    end
+  end
 
   # ...
   class Main
@@ -40,7 +70,8 @@ module GithubOrgActivityDevs
           rows << [' ',' ', ' ']
 
           developer.each do |activity_name, activities|
-            repos = activities.map(&:repo).map(&:name).uniq.sort
+            repos_names = activities.map(&:repo).map(&:name).uniq.sort
+            repos = repos_names.map { |repo_name| repo_info(repo_name) }
 
             rows << ['', activity_name, ' ']
             rows << ['', '', repos.join("\n")]
@@ -53,6 +84,18 @@ module GithubOrgActivityDevs
     end
 
     private
+
+    def repo_info(repo_name)
+      client_repository = if store.exist?(repo_name)
+        store.fetch(repo_name)
+      else
+        store.write(repo_name, client.repository(repo_name))
+        store.fetch(repo_name)
+      end
+      RepositoryDecorator.new(client_repository).to_s
+    rescue Octokit::NotFound, Octokit::InvalidRepository => e
+      e.message
+    end
 
     def output_console(name, repos)
       puts "#{name} (#{repos.count}) -> #{repos.join(', ')}"

@@ -28,6 +28,9 @@ module GithubOrgActivityDevs
     end
 
     def stack
+      FaradayManualCache.configure do |config|
+          config.memory_store = store
+      end
       Faraday::RackBuilder.new do |builder|
         builder.use Faraday::Request::Retry, exceptions: [Octokit::ServerError]
         builder.use Octokit::Middleware::FollowRedirects
@@ -37,12 +40,15 @@ module GithubOrgActivityDevs
         # builder.adapter Faraday.default_adapter
 
         # cache
-        builder.use Faraday::HttpCache, serializer: Marshal,
-                                        shared_cache: false,
-                                        logger: Logger.new(STDOUT),
-                                        store: store
+        builder.use :manual_cache,
+                    expires_in: 3600,
+                    logger: logger
         builder.adapter Faraday.default_adapter
       end
+    end
+
+    def logger
+      Logger.new(STDOUT)
     end
 
     def github_token
