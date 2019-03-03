@@ -34,9 +34,13 @@ $ bundle exec bin/github_org_activity_devs
 ## Features
 
 [x] Fetches team member login names
+
 [x] Fetch public user events for team members
+
 [x] Fetch description and language of repository
+
 [x] use ActiveSupport File Store Cache
+
 [x] prints a Terminal Table in the console output
 
 ## Installation
