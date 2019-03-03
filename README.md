@@ -33,15 +33,15 @@ $ bundle exec bin/github_org_activity_devs
 
 ## Features
 
-[x] Fetches team member login names
+:white_check_mark: Fetches team member login names
 
-[x] Fetch public user events for team members
+:white_check_mark: Fetch public user events for team members
 
-[x] Fetch description and language of repository
+:white_check_mark: Fetch description and language of repository
 
-[x] use ActiveSupport File Store Cache
+:white_check_mark: use ActiveSupport File Store Cache
 
-[x] prints a Terminal Table in the console output
+:white_check_mark: prints a Terminal Table in the console output
 
 ## Installation
 
