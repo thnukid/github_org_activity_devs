@@ -51,13 +51,17 @@ module GithubOrgActivityDevs
 
     # @return ['login1', 'login2'] if so
     def developers
-      @developers ||= client.team_members(team_members_id).map(&:login).sort
+      @developers ||= client.team_members(team_members_id)
+                            .map(&:login)
+                            .map(&:downcase).sort
     end
 
     # @return { 'login1' => { 'type_event': [{ 'event_json'}] }
     def activity
       @activity ||= developers.each_with_object({}) do |developer, hash|
-        developer_events = client.user_events(developer).group_by(&:type)
+        developer_events = client.user_events(developer)
+                                 .sort_by { |x| x.type.downcase }
+                                 .group_by(&:type)
         hash[developer.to_sym] = developer_events
       end
     end
