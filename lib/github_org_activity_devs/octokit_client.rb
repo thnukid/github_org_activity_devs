@@ -13,6 +13,7 @@ module GithubOrgActivityDevs
         c.access_token = github_token
         c.auto_paginate = true
       end
+      store.cleanup
     end
 
     def client
