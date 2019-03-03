@@ -12,19 +12,32 @@ $ bundle exec bin/github_org_activity_devs
 +---------------+------------+----------------+
 | github_login  |            |                |
 |               |            |                |
-|               | GitEvent   |                |
+|               | gitevent   |                |
 |               |            | repo/repo-name |
-|               | -          |                |
-+---------------+------------+----------------+
-+---------------+------------+----------------+
-| github_login1 |            |                |
-|               |            |                |
-|               | GitEvent   |                |
+|               |            | repo desc      |
+|               |            | repo language  |
+|               |            | ~              |
 |               |            | repo/repo-name |
+|               |            | repo desc      |
+|               |            | repo language  |
+|               |            | ~              |
+|               | gitevent   |                |
+|               |            | repo/repo-name |
+|               |            | repo desc      |
+|               |            | repo language  |
+|               |            | ~              |
 |               | -          |                |
 +---------------+------------+----------------+
 ...
 ```
+
+## Features
+
+[x] Fetches team member login names
+[x] Fetch public user events for team members
+[x] Fetch description and language of repository
+[x] use ActiveSupport File Store Cache
+[x] prints a Terminal Table in the console output
 
 ## Installation
 
