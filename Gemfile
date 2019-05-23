@@ -15,6 +15,8 @@ gem 'octokit' # github api client
 gem 'faraday-manual-cache' # cache middleware for faraday
 gem 'activesupport' # File store cache
 
+gem 'time_difference'
 gem 'terminal-table'
 
 gem 'pry' # debugger
+gem 'rb-readline' # for pry
