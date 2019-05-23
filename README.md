@@ -75,7 +75,7 @@ $ bundle exec bin/github_org_activity_devs
     $ vim .env
 ```
 
-3. Get a github auth token
+3. [Get a github auth token](https://github.com/settings/tokens)
 4. Get the team member id
 5. Make executable
 
