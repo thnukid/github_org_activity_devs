@@ -9,26 +9,15 @@ Needs a `github oauth token` and a `team_member_id` of the github team
 ```
 $ bundle exec bin/github_org_activity_devs
 # waiting longtime...
-+---------------+------------+----------------+
-| github_login  |            |                |
-|               |            |                |
-|               | gitevent   |                |
-|               |            | repo/repo-name |
-|               |            | repo desc      |
-|               |            | repo language  |
-|               |            | ~              |
-|               |            | repo/repo-name |
-|               |            | repo desc      |
-|               |            | repo language  |
-|               |            | ~              |
-|               | gitevent   |                |
-|               |            | repo/repo-name |
-|               |            | repo desc      |
-|               |            | repo language  |
-|               |            | ~              |
-|               | -          |                |
-+---------------+------------+----------------+
-...
+
+thnukid
+
+CreateEvent
+thnukid - created - branch - master - https://github.com/thnukid/phily-oss.netlify.com - 1 Week, 2 Days, 19 Hours, 41 Minutes and 53 Seconds
+thnukid - created - repository - https://github.com/thnukid/phily-oss.netlify.com - 1 Week, 2 Days, 19 Hours, 43 Minutes and 50 Seconds
+
+PushEvent
+thnukid - 1 commits - refs/heads/master - https://github.com/thnukid/phily-oss.netlify.com - 1 Day, 15 Hours, 52 Minutes and 35 Seconds
 ```
 
 ## Features
@@ -40,8 +29,6 @@ $ bundle exec bin/github_org_activity_devs
 :white_check_mark: Fetch description and language of repository
 
 :white_check_mark: use ActiveSupport File Store Cache
-
-:white_check_mark: prints a Terminal Table in the console output
 
 ## Installation
 
